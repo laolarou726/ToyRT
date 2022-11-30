@@ -39,9 +39,16 @@ jobs:
     steps:
     - name: Update Env
       run: sudo apt-get update && sudo apt-get upgrade
+      
+    - name: Add Intel Pub Key
+      run: wget https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB &&
+            sudo apt-key add GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB &&
+            sudo add-apt-repository "deb https://apt.repos.intel.com/oneapi all main"
     
     - name: Install Intel TBB Library
-      run: sudo apt-get install libtbb-dev libtbb2
+      run: sudo apt-get install libtbb-dev libtbb2 &&
+            sudo apt install intel-basekit &&
+            sudo apt install intel-hpckit
     
     - name: Checkout repository
       uses: actions/checkout@v3
