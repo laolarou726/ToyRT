@@ -37,8 +37,14 @@ jobs:
         # Learn more about CodeQL language support at https://aka.ms/codeql-docs/language-support
 
     steps:
+    - name: Install Intel TBB Library
+      run: apt install libtbb-dev
+    
     - name: Checkout repository
       uses: actions/checkout@v3
+      with:
+        submodules: recursive
+        depth: 0
 
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
