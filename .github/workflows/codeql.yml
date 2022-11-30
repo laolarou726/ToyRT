@@ -37,8 +37,11 @@ jobs:
         # Learn more about CodeQL language support at https://aka.ms/codeql-docs/language-support
 
     steps:
+    - name: Update Env
+      run: sudo apt-get update && sudo apt-get upgrade
+    
     - name: Install Intel TBB Library
-      run: apt install libtbb-dev
+      run: sudo apt-get install -y libtbb-dev
     
     - name: Checkout repository
       uses: actions/checkout@v3
