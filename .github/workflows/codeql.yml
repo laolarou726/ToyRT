@@ -41,7 +41,7 @@ jobs:
       run: sudo apt-get update && sudo apt-get upgrade
     
     - name: Install Intel TBB Library
-      run: sudo apt-get install -y libtbb-dev
+      run: sudo apt-get install libtbb-dev libtbb2
     
     - name: Checkout repository
       uses: actions/checkout@v3
