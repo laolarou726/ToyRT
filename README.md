@@ -1,4 +1,4 @@
-# ToyRT
+# ToyRT [![CodeQL](https://github.com/laolarou726/ToyRT/actions/workflows/codeql.yml/badge.svg)](https://github.com/laolarou726/ToyRT/actions/workflows/codeql.yml)
 
 A toy QMC Path Tracing Render written in C++. Only for academic purposes.
 
