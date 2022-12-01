@@ -6,6 +6,8 @@ set(CMAKE_CXX_STANDARD 17)
 find_package(OpenMP)
 find_package(TBB REQUIRED)
 
+add_subdirectory(Dependencies/fmt EXCLUDE_FROM_ALL)
+
 add_executable(ToyRT
         main.cpp
         Time.cpp
@@ -36,3 +38,4 @@ if(OpenMP_CXX_FOUND)
 endif()
 
 target_link_libraries(ToyRT PRIVATE TBB::tbb)
+target_link_libraries(ToyRT PRIVATE fmt::fmt-header-only)
