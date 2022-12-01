@@ -1,8 +1,8 @@
-#include "Tuple.h"
-#include "easyppm.h"
+#include "Models/Vector3.h"
+#include "Utils/easyppm.h"
 #include "Assets/Objects/Plane.h"
 #include "Assets/Objects/Sphere.h"
-#include "Scene.h"
+#include "Assets/Scene.h"
 #include "Assets/Cameras/PTCamera.h"
 #include "Assets/Materials/Reflection.h"
 #include "Assets/Objects/XYLimitedPlane.h"
@@ -37,8 +37,8 @@ int main() {
     double focus = 1.7;
     double w = 3.6;
     double h = 2.4;
-    Tuple origin = {500, 0, 200};
-    Tuple direction = {-1, 0, 0.15};
+    Vector3 origin = {500, 0, 200};
+    Vector3 direction = {-1, 0, 0.15};
 
     Scene scene;
     PTCamera camera = PTCamera(w, h, focus, origin, direction);
@@ -66,7 +66,7 @@ int main() {
     scene.addObject(new Plane({0, 0, 0},{0, 0, 1}, new Diffusion({0.7, 0.7, 0.7})));
     scene.addObject(new Plane({0, -400, 0}, {0, 1, 0}, new Diffusion({0, 1, 0})));
     scene.addObject(new Plane({0, 400, 0}, {0, -1, 0}, new Diffusion({1, 0, 0})));
-    scene.addObject(new XYLimitedPlane({-65, 0, 700}, {0, 0, -1}, 300, new Emission({1, 0.9, 0.6}, Tuple(1, 0.9, 0.7) * 10)));
+    scene.addObject(new XYLimitedPlane({-65, 0, 700}, {0, 0, -1}, 300, new Emission({1, 0.9, 0.6}, Vector3(1, 0.9, 0.7) * 10)));
     scene.addObject(new Plane({0, 0, 700}, {0, 0, -1}, new Diffusion({0.7, 0.7, 0.7})));
     scene.addObject(new Plane({-250, 0, 0}, {1, 0, 0}, new Diffusion({0.7, 0.7, 0.7})));
 

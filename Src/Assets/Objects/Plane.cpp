@@ -4,51 +4,51 @@
 
 #include "Plane.h"
 
-Plane::Plane(const Tuple &point, const Tuple &normal, MaterialBase* material) : GeometryObject({INT_MIN, INT_MIN, INT_MIN}) {
+Plane::Plane(const Vector3 &point, const Vector3 &normal, MaterialBase* material) : GeometryObject({INT_MIN, INT_MIN, INT_MIN}) {
     this->point = point;
 
-    Tuple n = normal;
+    Vector3 n = normal;
     n.normalize();
 
     this->normal = n;
     this->setMaterial(material);
 }
 
-Tuple Plane::getNormal(const Tuple &coordinate) const {
+Vector3 Plane::getNormal(const Vector3 &coordinate) const {
     return normal;
 }
 
-Tuple Plane::getPoint() const {
+Vector3 Plane::getPoint() const {
     return point;
 }
 
-double Plane::intersectDistance(const Tuple &from, const Tuple &direction) const {
+double Plane::intersectDistance(const Vector3 &from, const Vector3 &direction) const {
     double dot = normal.dot(direction);
 
     if(dot >= 0)
         return INT_MIN;
 
-    auto fromPos = Tuple(from);
+    auto fromPos = Vector3(from);
     double t = (point - fromPos).dot(normal) / dot;
 
     return t;
 }
 
-Tuple Plane::intersect(const Tuple &from, const Tuple &direction) const {
+Vector3 Plane::intersect(const Vector3 &from, const Vector3 &direction) const {
     double t = intersectDistance(from, direction);
 
     if(t == INT_MIN)
-        return Tuple::INF();
+        return Vector3::INF();
 
-    Tuple at = t * direction;
+    Vector3 at = t * direction;
 
     return at;
 }
 
-Tuple Plane::getRandomPoint(const Tuple &origin) const {
-    return Tuple::INF();
+Vector3 Plane::getRandomPoint(const Vector3 &origin) const {
+    return Vector3::INF();
 }
 
-double Plane::getProbabilityDensity(const Tuple &origin, const Tuple &direction) const {
+double Plane::getProbabilityDensity(const Vector3 &origin, const Vector3 &direction) const {
     return INT_MIN;
 }

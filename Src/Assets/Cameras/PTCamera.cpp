@@ -4,20 +4,20 @@
 
 #include "PTCamera.h"
 #include "../Ray.h"
-#include "../../Rgb.h"
+#include "../../Models/Rgb.h"
 #include <iostream>
 #include <oneapi/tbb/info.h>
 #include <oneapi/tbb/parallel_for.h>
 #include <oneapi/tbb/task_arena.h>
 
-PTCamera::PTCamera(double portSizeWidth, double portSizeHeight, double focus, const Tuple &origin,
-                   const Tuple &direction) {
+PTCamera::PTCamera(double portSizeWidth, double portSizeHeight, double focus, const Vector3 &origin,
+                   const Vector3 &direction) {
     this->portSizeWidth = portSizeWidth;
     this->portSizeHeight = portSizeHeight;
     this->focus = focus;
     this->origin = origin;
 
-    Tuple d = direction;
+    Vector3 d = direction;
     d.normalize();
     this->direction = d;
 
@@ -33,16 +33,16 @@ void PTCamera::render(int resWidth, int resHeight, const Scene &scene) {
     // Clear all image pixels to RGB color white.
     easyppm_clear(&myImage, easyppm_rgb(0, 0, 0));
 
-    Tuple vecX = Tuple::unitZ().cross(direction);
+    Vector3 vecX = Vector3::unitZ().cross(direction);
     vecX.normalize();
 
     std::vector<std::vector<int>> iterCountArr(resWidth, std::vector<int>(resHeight, 0));
-    std::vector<std::vector<Tuple*>> pixelColorBuffer(resWidth, std::vector<Tuple*>(resHeight, nullptr));
+    std::vector<std::vector<Vector3*>> pixelColorBuffer(resWidth, std::vector<Vector3*>(resHeight, nullptr));
 
-    Tuple vecY = Tuple::unitZ();
-    Tuple B = (focus * direction) +
-              (0.5 * portSizeWidth * vecX) +
-              (0.5 * portSizeHeight * vecY);
+    Vector3 vecY = Vector3::unitZ();
+    Vector3 B = (focus * direction) +
+                (0.5 * portSizeWidth * vecX) +
+                (0.5 * portSizeHeight * vecY);
     std::mutex mutex;
     oneapi::tbb::task_arena arena;
     size_t currentIterCount = 0;
@@ -59,14 +59,14 @@ void PTCamera::render(int resWidth, int resHeight, const Scene &scene) {
                     double portX = (double) x / resWidth * portSizeWidth;
                     double portY = (double) y / resHeight * portSizeHeight;
 
-                    Tuple P = B - portX * vecX - portY * vecY;
+                    Vector3 P = B - portX * vecX - portY * vecY;
                     Ray ray = Ray(origin, P);
-                    Tuple emitResultColor = ray.emit(scene);
+                    Vector3 emitResultColor = ray.emit(scene);
 
                     mutex.lock();
                     {
                         if (pixelColorBuffer[x][y] == nullptr)
-                            pixelColorBuffer[x][y] = new Tuple();
+                            pixelColorBuffer[x][y] = new Vector3();
 
                         emitResultColor =
                                 (iterCountArr[x][y] * *pixelColorBuffer[x][y] + emitResultColor) /
@@ -82,9 +82,9 @@ void PTCamera::render(int resWidth, int resHeight, const Scene &scene) {
 
                     mutex.lock();
                     {
-                        pixelColorBuffer[x][y] = new Tuple(emitResultColor.x,
-                                                           emitResultColor.y,
-                                                           emitResultColor.z);
+                        pixelColorBuffer[x][y] = new Vector3(emitResultColor.x,
+                                                             emitResultColor.y,
+                                                             emitResultColor.z);
 
                         easyppm_set(&myImage,
                                     x, y,

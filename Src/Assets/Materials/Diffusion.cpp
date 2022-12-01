@@ -4,13 +4,13 @@
 
 #include "Diffusion.h"
 
-Diffusion::Diffusion(const Tuple &reflectance) {
+Diffusion::Diffusion(const Vector3 &reflectance) {
     this->reflectance = reflectance;
 }
 
-Tuple Diffusion::getOutRayDirection(const Tuple &inRay, const Tuple &meshNormal) {
+Vector3 Diffusion::getOutRayDirection(const Vector3 &inRay, const Vector3 &meshNormal) {
     while (true){
-        Tuple randomVec = Tuple::RAND_NORM();
+        Vector3 randomVec = Vector3::RAND_NORM();
         if(randomVec.dot(meshNormal) > 0) return randomVec;
     }
 }

@@ -6,9 +6,9 @@
 #define COMPUTERGRAPHICS_CAMERABASE_H
 
 #include <omp.h>
-#include "../../Tuple.h"
-#include "../../Scene.h"
-#include "../../easyppm.h"
+#include "../../Models/Vector3.h"
+#include "../Scene.h"
+#include "../../Utils/easyppm.h"
 
 class CameraBase {
 private:
@@ -17,8 +17,8 @@ protected:
     double portSizeWidth;
     double portSizeHeight;
     double focus;
-    Tuple origin;
-    Tuple direction;
+    Vector3 origin;
+    Vector3 direction;
     PPM image;
 
     virtual void reportProgress(double progress, int reportStep);

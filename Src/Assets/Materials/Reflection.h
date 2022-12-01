@@ -10,8 +10,8 @@
 
 class Reflection : public MaterialBase {
 public:
-    explicit Reflection(const Tuple &reflectance);
-    Tuple getOutRayDirection(const Tuple& InRayDirection, const Tuple&  MeshNormal) override;
+    explicit Reflection(const Vector3 &reflectance);
+    Vector3 getOutRayDirection(const Vector3& InRayDirection, const Vector3&  MeshNormal) override;
 };
 
 

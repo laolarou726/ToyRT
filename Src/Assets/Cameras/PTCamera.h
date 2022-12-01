@@ -13,7 +13,7 @@ private:
     int iterCount = 100000;
     int samplePerIter = 128;
 public:
-    PTCamera(double portSizeWidth, double portSizeHeight, double focus, const Tuple &origin, const Tuple &direction);
+    PTCamera(double portSizeWidth, double portSizeHeight, double focus, const Vector3 &origin, const Vector3 &direction);
     void render(int resWidth, int resHeight, const Scene &scene) override;
     [[nodiscard]] int getIterationCount() const;
     void setIterationCount(int count);

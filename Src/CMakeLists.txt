@@ -8,30 +8,30 @@ find_package(TBB REQUIRED)
 
 add_subdirectory(Dependencies/fmt EXCLUDE_FROM_ALL)
 
+file(GLOB ASSETS_SOURCES
+        ${PROJECT_SOURCE_DIR}/Assets/*.h
+        ${PROJECT_SOURCE_DIR}/Assets/*.cpp
+        ${PROJECT_SOURCE_DIR}/Assets/Cameras/*.h
+        ${PROJECT_SOURCE_DIR}/Assets/Cameras/*.cpp
+        ${PROJECT_SOURCE_DIR}/Assets/Materials/*.h
+        ${PROJECT_SOURCE_DIR}/Assets/Materials/*.cpp
+        ${PROJECT_SOURCE_DIR}/Assets/Objects/*.h
+        ${PROJECT_SOURCE_DIR}/Assets/Objects/*.cpp)
+
+file(GLOB MODELS_SOURCES
+        ${PROJECT_SOURCE_DIR}/Models/*.h
+        ${PROJECT_SOURCE_DIR}/Models/*.cpp)
+
+file(GLOB UTILS_SOURCES
+        ${PROJECT_SOURCE_DIR}/Utils/*.h
+        ${PROJECT_SOURCE_DIR}/Utils/*.c
+        ${PROJECT_SOURCE_DIR}/Utils/*.cpp)
+
 add_executable(ToyRT
         main.cpp
-        Time.cpp
-        Tuple.cpp
-        Tuple.h
-        easyppm.c
-        easyppm.h
-        Assets/Ray.cpp
-        Assets/Ray.h
-        Assets/Objects/GeometryObject.cpp
-        Assets/Objects/GeometryObject.h
-        Assets/Objects/Sphere.cpp
-        Assets/Objects/Sphere.h
-        Assets/Objects/Plane.cpp
-        Assets/Objects/Plane.h
-        Scene.cpp
-        Scene.h
-        Assets/Materials/MaterialBase.cpp
-        Assets/Materials/MaterialBase.h
-        Assets/Materials/Diffusion.cpp
-        Assets/Materials/Diffusion.h
-        Assets/Materials/Reflection.cpp
-        Assets/Materials/Reflection.h
-        Assets/Cameras/CameraBase.cpp Assets/Cameras/CameraBase.h Assets/Cameras/PTCamera.cpp Assets/Cameras/PTCamera.h Rgb.cpp Rgb.h Assets/Objects/XYLimitedPlane.cpp Assets/Objects/XYLimitedPlane.h Assets/Materials/Emission.cpp Assets/Materials/Emission.h Random.h Random.cpp)
+        ${ASSETS_SOURCES}
+        ${MODELS_SOURCES}
+        ${UTILS_SOURCES})
 
 if(OpenMP_CXX_FOUND)
     target_link_libraries(ToyRT PRIVATE OpenMP::OpenMP_CXX)

@@ -2,10 +2,10 @@
 // Created by luoli on 2022/9/6.
 //
 
-#include "Tuple.h"
+#include "Vector3.h"
 #include <cmath>
 
-Tuple::Tuple() {
+Vector3::Vector3() {
     x = 0;
     y = 0;
     z = 0;
@@ -13,7 +13,7 @@ Tuple::Tuple() {
     w = 0;
 }
 
-Tuple::Tuple(double x, double y, double z) {
+Vector3::Vector3(double x, double y, double z) {
     this->x = x;
     this->y = y;
     this->z = z;
@@ -21,7 +21,7 @@ Tuple::Tuple(double x, double y, double z) {
     w = 0;
 }
 
-Tuple::Tuple(double x, double y, double z, double w) {
+Vector3::Vector3(double x, double y, double z, double w) {
     this->x = x;
     this->y = y;
     this->z = z;
@@ -29,7 +29,7 @@ Tuple::Tuple(double x, double y, double z, double w) {
     this->w = w;
 }
 
-Tuple::Tuple(const Tuple &source) {
+Vector3::Vector3(const Vector3 &source) {
     x = source.x;
     y = source.y;
     z = source.z;
@@ -37,15 +37,15 @@ Tuple::Tuple(const Tuple &source) {
     w = source.w;
 }
 
-bool Tuple::isVector() const {
+bool Vector3::isVector() const {
     return abs(w) < 0.001;
 }
 
-bool Tuple::isPoint() const {
+bool Vector3::isPoint() const {
     return abs(w) >= 0.001;
 }
 
-void Tuple::add(const Tuple &otherTuple) {
+void Vector3::add(const Vector3 &otherTuple) {
     x += otherTuple.x;
     y += otherTuple.y;
     z += otherTuple.z;
@@ -56,7 +56,7 @@ void Tuple::add(const Tuple &otherTuple) {
         w = 1;
 }
 
-void Tuple::sub(const Tuple &otherTuple) {
+void Vector3::sub(const Vector3 &otherTuple) {
     x -= otherTuple.x;
     y -= otherTuple.y;
     z -= otherTuple.z;
@@ -67,19 +67,19 @@ void Tuple::sub(const Tuple &otherTuple) {
         w = 1;
 }
 
-void Tuple::multScalar(double S) {
+void Vector3::multScalar(double S) {
     x *= S;
     y *= S;
     z *= S;
 }
 
-double Tuple::magnitude() const {
+double Vector3::magnitude() const {
     return isVector()
     ? sqrt(pow(x, 2) + pow(y, 2) + pow(z, 2))
     : 0;
 }
 
-void Tuple::normalize() {
+void Vector3::normalize() {
     if(isPoint()) return;
 
     auto mag = magnitude();
@@ -91,7 +91,7 @@ void Tuple::normalize() {
     }
 }
 
-double Tuple::dot(const Tuple &otherTuple) const {
+double Vector3::dot(const Vector3 &otherTuple) const {
     if(!isVector() || !otherTuple.isVector()) return 0;
 
     return x * otherTuple.x +
@@ -99,60 +99,60 @@ double Tuple::dot(const Tuple &otherTuple) const {
             z * otherTuple.z;
 }
 
-void Tuple::print() const {
+void Vector3::print() const {
     cout << "(" << x << ", " << y << ", " << z << ")" << endl;
 }
 
-ostream &operator<<(ostream &os, const Tuple &T) {
+ostream &operator<<(ostream &os, const Vector3 &T) {
     os << "(" << T.x << ", " << T.y << ", " << T.z << ", " << T.w << ")" << endl;
 
     return os;
 }
 
-Tuple operator+(const Tuple &a, const Tuple &b) {
-    auto result = Tuple(a);
+Vector3 operator+(const Vector3 &a, const Vector3 &b) {
+    auto result = Vector3(a);
 
     result.add(b);
 
     return result;
 }
 
-Tuple operator-(const Tuple &a, const Tuple &b) {
-    auto result = Tuple(a);
+Vector3 operator-(const Vector3 &a, const Vector3 &b) {
+    auto result = Vector3(a);
 
     result.sub(b);
 
     return result;
 }
 
-Tuple operator*(const Tuple &a, double s) {
-    auto result = Tuple(a);
+Vector3 operator*(const Vector3 &a, double s) {
+    auto result = Vector3(a);
 
     result.multScalar(s);
 
     return result;
 }
 
-Tuple operator*(double s, const Tuple &a) {
-    auto result = Tuple(a);
+Vector3 operator*(double s, const Vector3 &a) {
+    auto result = Vector3(a);
 
     result.multScalar(s);
 
     return result;
 }
 
-bool operator==(const Tuple &a, const Tuple &b) {
+bool operator==(const Vector3 &a, const Vector3 &b) {
     return a.x == b.x &&
             a.y == b.y &&
             a.z == b.z &&
             a.w == b.w;
 }
 
-bool operator!=(const Tuple &a, const Tuple &b) {
+bool operator!=(const Vector3 &a, const Vector3 &b) {
     return !(a == b);
 }
 
-Tuple Tuple::cross(const Tuple &otherTuple) const {
+Vector3 Vector3::cross(const Vector3 &otherTuple) const {
     return {
         y * otherTuple.z - z * otherTuple.y,
         -(x * otherTuple.z - z * otherTuple.x),
@@ -160,7 +160,7 @@ Tuple Tuple::cross(const Tuple &otherTuple) const {
     };
 }
 
-Tuple Tuple::vectorDot(const Tuple &otherTuple) const {
+Vector3 Vector3::vectorDot(const Vector3 &otherTuple) const {
     return {
         x * otherTuple.x,
         y * otherTuple.y,
@@ -168,8 +168,8 @@ Tuple Tuple::vectorDot(const Tuple &otherTuple) const {
     };
 }
 
-Tuple operator/(const Tuple &a, double val) {
-    auto result = Tuple(a);
+Vector3 operator/(const Vector3 &a, double val) {
+    auto result = Vector3(a);
     result.multScalar(1.0 / val);
 
     return result;

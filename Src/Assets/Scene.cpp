@@ -3,9 +3,9 @@
 //
 
 #include "Scene.h"
-#include "Assets/Objects/Sphere.h"
+#include "Objects/Sphere.h"
 
-bool Scene::hitTest(const Tuple &from, const Tuple &direction) {
+bool Scene::hitTest(const Vector3 &from, const Vector3 &direction) {
     for(GeometryObject *obj : objects){
         if(obj->intersectDistance(from, direction) != INT_MIN)
             return true;
@@ -14,7 +14,7 @@ bool Scene::hitTest(const Tuple &from, const Tuple &direction) {
     return false;
 }
 
-GeometryObject* Scene::getHitObject(const Tuple &from, const Tuple &direction) const {
+GeometryObject* Scene::getHitObject(const Vector3 &from, const Vector3 &direction) const {
     double minT = INT_MAX;
     GeometryObject* resultObj = nullptr;
 
@@ -42,12 +42,12 @@ std::vector<GeometryObject*> Scene::getObjects() const {
     return objects;
 }
 
-GeometryObject *Scene::getNearestLightSource(const Tuple &from, const Tuple &direction) const {
+GeometryObject *Scene::getNearestLightSource(const Vector3 &from, const Vector3 &direction) const {
     double minT = INT_MAX;
     GeometryObject* resultObj = nullptr;
 
     for(GeometryObject *obj : objects){
-        if(obj->getMaterial()->getEmission() == Tuple::INF())
+        if(obj->getMaterial()->getEmission() == Vector3::INF())
             continue;
 
         double objT = obj->intersectDistance(from, direction);
@@ -65,7 +65,7 @@ GeometryObject *Scene::getNearestLightSource(const Tuple &from, const Tuple &dir
     return resultObj;
 }
 
-bool Scene::isPathBlocked(const Tuple &from, const Tuple &direction, const GeometryObject *target) const {
+bool Scene::isPathBlocked(const Vector3 &from, const Vector3 &direction, const GeometryObject *target) const {
     GeometryObject* hitObject = getHitObject(from, direction);
 
     if(hitObject == nullptr)

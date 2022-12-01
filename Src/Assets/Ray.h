@@ -6,19 +6,19 @@
 #define COMPUTERGRAPHICS_RAY_H
 
 
-#include "../Tuple.h"
-#include "../Scene.h"
+#include "../Models/Vector3.h"
+#include "Scene.h"
 
 class Ray {
 private:
     int maxBounces;
 public:
-    Tuple origin;
-    Tuple direction;
+    Vector3 origin;
+    Vector3 direction;
 
-    explicit Ray(const Tuple &direction, int maxBounces = 4);
-    explicit Ray(const Tuple &origin, const Tuple &direction, int maxBounces = 4);
-    virtual Tuple emit(const Scene &scene);
+    explicit Ray(const Vector3 &direction, int maxBounces = 4);
+    explicit Ray(const Vector3 &origin, const Vector3 &direction, int maxBounces = 4);
+    virtual Vector3 emit(const Scene &scene);
 };
 
 

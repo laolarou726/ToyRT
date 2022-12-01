@@ -6,16 +6,16 @@
 #define COMPUTERGRAPHICS_DIFFUSION_H
 
 
-#include "../../Tuple.h"
+#include "../../Models/Vector3.h"
 #include "MaterialBase.h"
 
 class Diffusion : public MaterialBase{
 public:
-    explicit Diffusion(const Tuple &reflectance);
+    explicit Diffusion(const Vector3 &reflectance);
     static Diffusion* DEFAULT(){
         return new Diffusion({1, 1, 1});
     }
-    Tuple getOutRayDirection(const Tuple &inRay, const Tuple &meshNormal) override;
+    Vector3 getOutRayDirection(const Vector3 &inRay, const Vector3 &meshNormal) override;
 };
 
 

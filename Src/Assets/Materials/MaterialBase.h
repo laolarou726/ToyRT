@@ -6,17 +6,17 @@
 #define COMPUTERGRAPHICS_MATERIALBASE_H
 
 
-#include "../../Tuple.h"
+#include "../../Models/Vector3.h"
 #include <tuple>
 
 class MaterialBase {
 protected:
-    Tuple emission = {INT_MIN, INT_MIN, INT_MIN};
-    Tuple reflectance;
+    Vector3 emission = {INT_MIN, INT_MIN, INT_MIN};
+    Vector3 reflectance;
 public:
-    [[nodiscard]] Tuple getEmission() const;
-    [[nodiscard]] Tuple getReflectance() const;
-    virtual Tuple getOutRayDirection(const Tuple& inRay, const Tuple& meshNormal);
+    [[nodiscard]] Vector3 getEmission() const;
+    [[nodiscard]] Vector3 getReflectance() const;
+    virtual Vector3 getOutRayDirection(const Vector3& inRay, const Vector3& meshNormal);
     [[nodiscard]] virtual tuple<char, char, char> getReflectanceColor() const;
 };
 

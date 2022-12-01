@@ -10,9 +10,9 @@
 
 class Emission : public MaterialBase{
 public:
-    explicit Emission(const Tuple &reflectance);
-    explicit Emission(const Tuple &reflectance, const Tuple &emission);
-    Tuple getOutRayDirection(const Tuple &inRay, const Tuple &meshNormal) override;
+    explicit Emission(const Vector3 &reflectance);
+    explicit Emission(const Vector3 &reflectance, const Vector3 &emission);
+    Vector3 getOutRayDirection(const Vector3 &inRay, const Vector3 &meshNormal) override;
 };
 
 

@@ -5,14 +5,14 @@
 #include "Reflection.h"
 #include "cmath"
 
-Tuple Reflection::getOutRayDirection(const Tuple &inRay, const Tuple &meshNormal) {
-    Tuple outRay =
+Vector3 Reflection::getOutRayDirection(const Vector3 &inRay, const Vector3 &meshNormal) {
+    Vector3 outRay =
             inRay - 2 * inRay.dot(meshNormal)
             / pow(meshNormal.magnitude(), 2) *
             meshNormal;
     return outRay;
 }
 
-Reflection::Reflection(const Tuple &reflectance) {
+Reflection::Reflection(const Vector3 &reflectance) {
     this->reflectance = reflectance;
 }

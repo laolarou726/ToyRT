@@ -5,28 +5,28 @@
 #include "Ray.h"
 #include "Materials/Reflection.h"
 
-Ray::Ray(const Tuple &direction, int maxBounces) {
+Ray::Ray(const Vector3 &direction, int maxBounces) {
     this->maxBounces = maxBounces;
 
-    auto d = Tuple(direction);
+    auto d = Vector3(direction);
     d.normalize();
 
     this->direction = d;
 }
 
-Ray::Ray(const Tuple &origin, const Tuple &direction, int maxBounces) {
+Ray::Ray(const Vector3 &origin, const Vector3 &direction, int maxBounces) {
     this->maxBounces = maxBounces;
 
-    auto d = Tuple(direction);
+    auto d = Vector3(direction);
     d.normalize();
 
     this->origin = origin;
     this->direction = d;
 }
 
-Tuple Ray::emit(const Scene &scene) {
-    Tuple result = Tuple::zero();
-    Tuple whole = Tuple::one();
+Vector3 Ray::emit(const Scene &scene) {
+    Vector3 result = Vector3::zero();
+    Vector3 whole = Vector3::one();
     int bounceCount = 0;
     GeometryObject* lastHitObject;
 
@@ -37,18 +37,18 @@ Tuple Ray::emit(const Scene &scene) {
         if(hitObject == lastHitObject) break;
 
         lastHitObject = hitObject;
-        Tuple hitDirection = hitObject->intersect(origin, direction);
+        Vector3 hitDirection = hitObject->intersect(origin, direction);
 
-        //Tuple hitDirection = hitObject->intersect(origin, direction);
+        //Vector3 hitDirection = hitObject->intersect(origin, direction);
 
         origin = origin + hitDirection;
 
-        Tuple normal = hitObject->getNormal(origin);
+        Vector3 normal = hitObject->getNormal(origin);
         MaterialBase* mat = hitObject->getMaterial();
-        Tuple nextDirection = hitObject->getMaterial()->getOutRayDirection(direction, normal);
+        Vector3 nextDirection = hitObject->getMaterial()->getOutRayDirection(direction, normal);
 
         if(dynamic_cast<Reflection*>(mat) == nullptr){
-            if(mat->getEmission() != Tuple::INF()){
+            if(mat->getEmission() != Vector3::INF()){
                 result = result + mat->getEmission().vectorDot(whole);
             }
             else{

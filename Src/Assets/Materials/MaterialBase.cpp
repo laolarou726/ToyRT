@@ -5,11 +5,11 @@
 #include "MaterialBase.h"
 #include <cmath>
 
-Tuple MaterialBase::getEmission() const {
+Vector3 MaterialBase::getEmission() const {
     return emission;
 }
 
-Tuple MaterialBase::getReflectance() const {
+Vector3 MaterialBase::getReflectance() const {
     return reflectance;
 }
 
@@ -20,6 +20,6 @@ tuple<char, char, char> MaterialBase::getReflectanceColor() const {
             (char) round(reflectance.z * 255));
 }
 
-Tuple MaterialBase::getOutRayDirection(const Tuple &InRayDirection, const Tuple &MeshNormal) {
+Vector3 MaterialBase::getOutRayDirection(const Vector3 &InRayDirection, const Vector3 &MeshNormal) {
     throw std::invalid_argument("not implemented");
 }

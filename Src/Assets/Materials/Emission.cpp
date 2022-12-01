@@ -4,18 +4,18 @@
 
 #include "Emission.h"
 
-Emission::Emission(const Tuple &reflectance) {
+Emission::Emission(const Vector3 &reflectance) {
     this->reflectance = reflectance;
 }
 
-Emission::Emission(const Tuple &reflectance, const Tuple &emission) {
+Emission::Emission(const Vector3 &reflectance, const Vector3 &emission) {
     this->reflectance = reflectance;
     this->emission = emission;
 }
 
-Tuple Emission::getOutRayDirection(const Tuple &inRay, const Tuple &meshNormal) {
+Vector3 Emission::getOutRayDirection(const Vector3 &inRay, const Vector3 &meshNormal) {
     while (true){
-        Tuple randomVec = Tuple::RAND_NORM();
+        Vector3 randomVec = Vector3::RAND_NORM();
         if(randomVec.dot(meshNormal) > 0) return randomVec;
     }
 }

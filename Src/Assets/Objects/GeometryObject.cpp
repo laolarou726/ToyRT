@@ -4,23 +4,23 @@
 
 #include "GeometryObject.h"
 
-GeometryObject::GeometryObject(const Tuple &position) {
+GeometryObject::GeometryObject(const Vector3 &position) {
     this->position = position;
 }
 
-Tuple GeometryObject::getPosition() const {
+Vector3 GeometryObject::getPosition() const {
     return position;
 }
 
-Tuple GeometryObject::getNormal(const Tuple &coordinate) const {
+Vector3 GeometryObject::getNormal(const Vector3 &coordinate) const {
     throw std::invalid_argument("not implemented");
 }
 
-double GeometryObject::intersectDistance(const Tuple &from, const Tuple &direction) const {
+double GeometryObject::intersectDistance(const Vector3 &from, const Vector3 &direction) const {
     throw std::invalid_argument("not implemented");
 }
 
-Tuple GeometryObject::intersect(const Tuple &from, const Tuple &direction) const {
+Vector3 GeometryObject::intersect(const Vector3 &from, const Vector3 &direction) const {
     throw std::invalid_argument("not implemented");
 }
 
