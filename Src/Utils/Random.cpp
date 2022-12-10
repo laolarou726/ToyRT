@@ -18,7 +18,7 @@ double Random::next(double max) {
 }
 
 double Random::next(double min, double max) {
-    return min + (dist(mt) * (max-min+1));
+    return min + (dist(mt) * (max - min + 1));
 }
 
 int Random::nextInt() {

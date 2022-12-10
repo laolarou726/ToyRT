@@ -16,7 +16,7 @@ private:
 public:
     bool hitTest(const Vector3 &from, const Vector3 &direction);
     [[nodiscard]] GeometryObject* getHitObject(const Vector3 &from, const Vector3 &direction) const;
-    [[nodiscard]] GeometryObject* getNearestLightSource(const Vector3 &from, const Vector3 &direction) const;
+    [[nodiscard]] GeometryObject* getNearestLightSource(const Vector3 &from) const;
     [[nodiscard]] bool isPathBlocked(const Vector3 &from, const Vector3 &direction, const GeometryObject* target) const;
     void addObject(GeometryObject *object);
     [[nodiscard]] std::vector<GeometryObject*> getObjects() const;

@@ -3,8 +3,8 @@
 //
 
 #include "Sphere.h"
-#include "../../Utils/Random.h"
 #include <cmath>
+#include <cfloat>
 
 Sphere::Sphere(const Vector3 &coordinate, double radius, MaterialBase* material) : GeometryObject(coordinate) {
     this->radius = radius;
@@ -13,34 +13,45 @@ Sphere::Sphere(const Vector3 &coordinate, double radius, MaterialBase* material)
 
 Vector3 Sphere::getNormal(const Vector3 &coordinate) const {
     Vector3 result = coordinate - position;
-    //result.normalize();
+    result.normalize();
 
     return result;
 }
 
 double Sphere::intersectDistance(const Vector3 &from, const Vector3 &direction) const {
-    Vector3 L = position - from;
-    double t_ca = L.dot(direction);
+    Vector3 oc = from - position;
+    double a = direction.dot(direction);
+    double b = oc.dot(direction);
+    double c = oc.dot(oc) - pow(radius, 2);
 
-    if (t_ca < 0) return INT_MIN;
+    // discriminant
+    double discriminant = pow(b, 2) - a * c;
 
-    double dSquare = L.dot(L) - pow(t_ca, 2);
-    if (dSquare > pow(radius, 2))
+    if (discriminant > 0)
     {
-        return INT_MIN;
+        double sqrtDiscriminant = sqrt(discriminant);
+        double temp = (-b - sqrtDiscriminant) / a;
+
+        if (temp >= DBL_MAX || temp <= 0.001)
+        {
+            temp = (-b + sqrtDiscriminant)  / a;
+
+            if (temp >= DBL_MAX || temp <= 0.001)
+            {
+                return INT_MIN;
+            }
+        }
+
+        return temp;
     }
 
-    double d = sqrt(dSquare);
-    double t_hc = sqrt(pow(radius, 2) - pow(d, 2));
-    double t_0 = t_ca - t_hc;
-
-    return t_0;
+    return INT_MIN;
 }
 
 Vector3 Sphere::intersect(const Vector3 &from, const Vector3 &direction) const {
     double t = intersectDistance(from, direction);
 
-    return t * direction;
+    return from + t * direction;
 }
 
 Vector3 Sphere::getRandomPoint(const Vector3 &origin) const {
@@ -62,4 +73,15 @@ double Sphere::getProbabilityDensity(const Vector3 &origin, const Vector3 &direc
     double solid_angle = 2 * M_PI * (1 - cos_theta_max);
 
     return 1.0 / solid_angle;
+}
+
+Vector3 Sphere::randomInUnitSphere() {
+    Vector3 result;
+
+    do
+    {
+        result = Vector3(Random::next(), Random::next(), Random::next()) * 2 - Vector3::one();
+    } while (result.magnitude() >= 1);
+
+    return result;
 }

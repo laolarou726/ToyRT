@@ -4,15 +4,19 @@
 
 #include "Reflection.h"
 #include "cmath"
+#include "../Objects/Sphere.h"
 
 Vector3 Reflection::getOutRayDirection(const Vector3 &inRay, const Vector3 &meshNormal) {
-    Vector3 outRay =
-            inRay - 2 * inRay.dot(meshNormal)
-            / pow(meshNormal.magnitude(), 2) *
-            meshNormal;
+    Vector3 normalizedRayDirection = inRay;
+    normalizedRayDirection.normalize();
+
+    Vector3 reflected = inRay - meshNormal * (inRay.dot(meshNormal)) * 2.0f;
+    Vector3 outRay = reflected + roughness * Sphere::randomInUnitSphere();
+
     return outRay;
 }
 
-Reflection::Reflection(const Vector3 &reflectance) {
+Reflection::Reflection(const Vector3 &reflectance, double roughness) {
     this->reflectance = reflectance;
+    this->roughness = roughness < 1 ? roughness : 1;
 }

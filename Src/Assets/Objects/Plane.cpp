@@ -4,7 +4,7 @@
 
 #include "Plane.h"
 
-Plane::Plane(const Vector3 &point, const Vector3 &normal, MaterialBase* material) : GeometryObject({INT_MIN, INT_MIN, INT_MIN}) {
+Plane::Plane(const Vector3 &point, const Vector3 &normal, MaterialBase* material) : GeometryObject(point) {
     this->point = point;
 
     Vector3 n = normal;
@@ -40,15 +40,32 @@ Vector3 Plane::intersect(const Vector3 &from, const Vector3 &direction) const {
     if(t == INT_MIN)
         return Vector3::INF();
 
-    Vector3 at = t * direction;
+    Vector3 at = from + t * direction;
 
     return at;
 }
 
 Vector3 Plane::getRandomPoint(const Vector3 &origin) const {
-    return Vector3::INF();
+    Vector3 center = point;
+    Vector3 leftCorner = Vector3::zero();
+
+    double side = 700;
+
+    leftCorner.x = center.x - side / 2;
+    leftCorner.y = center.y - side / 2;
+    leftCorner.z = center.z;
+
+    return {leftCorner.x + side * Random::next(),
+            leftCorner.y + side * Random::next(),
+            leftCorner.z};
 }
 
 double Plane::getProbabilityDensity(const Vector3 &origin, const Vector3 &direction) const {
-    return INT_MIN;
+    if(intersectDistance(origin, direction) == INT_MIN) return 0;
+
+    double area = pow(700, 2);
+    double distanceSquared = pow(direction.magnitude(), 2);
+    double cosine = fabs(direction.dot(normal) / direction.magnitude());
+
+    return distanceSquared / (cosine * area);
 }

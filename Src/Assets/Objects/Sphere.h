@@ -20,6 +20,8 @@ public:
 
     [[nodiscard]] Vector3 getRandomPoint(const Vector3 &origin) const override;
     [[nodiscard]] double getProbabilityDensity(const Vector3 &origin, const Vector3 &direction) const override;
+
+    static Vector3 randomInUnitSphere();
 };
 
 

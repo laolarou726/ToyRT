@@ -42,7 +42,7 @@ std::vector<GeometryObject*> Scene::getObjects() const {
     return objects;
 }
 
-GeometryObject *Scene::getNearestLightSource(const Vector3 &from, const Vector3 &direction) const {
+GeometryObject *Scene::getNearestLightSource(const Vector3 &from) const {
     double minT = INT_MAX;
     GeometryObject* resultObj = nullptr;
 
@@ -50,9 +50,14 @@ GeometryObject *Scene::getNearestLightSource(const Vector3 &from, const Vector3 
         if(obj->getMaterial()->getEmission() == Vector3::INF())
             continue;
 
-        double objT = obj->intersectDistance(from, direction);
+        Vector3 toLightDirection = obj->getPosition() - from;
+        toLightDirection.normalize();
+
+        double objT = obj->intersectDistance(from, toLightDirection);
 
         if(objT != INT_MIN){
+            if(isPathBlocked(from, toLightDirection, obj)) continue;
+
             double absObjT = abs(objT);
 
             if(absObjT < minT){

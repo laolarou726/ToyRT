@@ -4,6 +4,7 @@
 
 #include "Ray.h"
 #include "Materials/Reflection.h"
+#include "Materials/Dielectric.h"
 
 Ray::Ray(const Vector3 &direction, int maxBounces) {
     this->maxBounces = maxBounces;
@@ -28,42 +29,45 @@ Vector3 Ray::emit(const Scene &scene) {
     Vector3 result = Vector3::zero();
     Vector3 whole = Vector3::one();
     int bounceCount = 0;
-    GeometryObject* lastHitObject;
+    //GeometryObject* lastHitObject;
 
     while(bounceCount < maxBounces){
         GeometryObject* hitObject = scene.getHitObject(origin, direction);
 
         if(hitObject == nullptr) break;
-        if(hitObject == lastHitObject) break;
 
-        lastHitObject = hitObject;
+        //if(hitObject == lastHitObject) break;
+        //lastHitObject = hitObject;
+
+        MaterialBase* mat = hitObject->getMaterial();
+
         Vector3 hitDirection = hitObject->intersect(origin, direction);
-
-        //Vector3 hitDirection = hitObject->intersect(origin, direction);
-
-        origin = origin + hitDirection;
+        origin = hitDirection;
 
         Vector3 normal = hitObject->getNormal(origin);
-        MaterialBase* mat = hitObject->getMaterial();
+
         Vector3 nextDirection = hitObject->getMaterial()->getOutRayDirection(direction, normal);
+        //nextDirection.normalize();
 
-        if(dynamic_cast<Reflection*>(mat) == nullptr){
-            if(mat->getEmission() != Vector3::INF()){
-                result = result + mat->getEmission().vectorDot(whole);
-            }
-            else{
-                GeometryObject* nearestLight = scene.getNearestLightSource(origin, normal);
+        /*
+        GeometryObject* nearestLight = scene.getNearestLightSource(origin);
 
-                if(nearestLight != nullptr){
-                    if(!scene.isPathBlocked(origin, normal, nearestLight)){
+        if(nearestLight != nullptr){
+            Vector3 randomSurfacePoint = hitObject->getRandomPoint(origin);
+            Vector3 toLightDirection = nearestLight->getPosition() - randomSurfacePoint;
+            toLightDirection.normalize();
 
-                    }
-                }
-            }
+            double pdf = hitObject->getProbabilityDensity(origin, toLightDirection);
 
-            whole = whole.vectorDot(mat->getReflectance());
+            //result = result + mat->getReflectance() / pdf;
+        }
+        */
+
+        if(mat->getEmission() != Vector3::INF()){
+            result = result + mat->getEmission().vectorDot(whole);
         }
 
+        whole = whole.vectorDot(mat->getReflectance());
         direction = nextDirection;
         bounceCount++;
     }

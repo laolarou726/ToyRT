@@ -5,7 +5,7 @@
 #include "XYLimitedPlane.h"
 #include "../../Utils/Random.h"
 
-XYLimitedPlane::XYLimitedPlane(const Vector3 &point, const Vector3 &normal, double side, MaterialBase* material) : GeometryObject({INT_MIN, INT_MIN, INT_MIN}){
+XYLimitedPlane::XYLimitedPlane(const Vector3 &point, const Vector3 &normal, double side, MaterialBase* material) : GeometryObject(point){
     this->point = point;
 
     Vector3 n = normal;
@@ -42,7 +42,7 @@ Vector3 XYLimitedPlane::intersect(const Vector3 &from, const Vector3 &direction)
     if(t == INT_MIN)
         return Vector3::INF();
 
-    Vector3 at = t * direction;
+    Vector3 at = from + t * direction;
 
     return at;
 }
