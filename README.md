@@ -79,4 +79,5 @@ sudo apt install intel-hpckit
 |Basic Geometries|✅|
 |Anti-aliasing|✅|
 |Parallel Render|✅|
+|Gamma Correction|✅|
 |Direct Light Sampling|WIP|
