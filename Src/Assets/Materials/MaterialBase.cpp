@@ -23,3 +23,7 @@ tuple<char, char, char> MaterialBase::getReflectanceColor() const {
 Vector3 MaterialBase::getOutRayDirection(const Vector3 &InRayDirection, const Vector3 &MeshNormal) {
     throw std::invalid_argument("not implemented");
 }
+
+double MaterialBase::scatteringPDF(const Vector3 &inRay, const Vector3 &meshNormal) {
+    return 0;
+}

@@ -13,12 +13,14 @@ Sphere::Sphere(const Vector3 &coordinate, double radius, MaterialBase* material)
 
 Vector3 Sphere::getNormal(const Vector3 &coordinate) const {
     Vector3 result = coordinate - position;
-    result.normalize();
+    result = result / radius;
+    //result.normalize();
 
     return result;
 }
 
 double Sphere::intersectDistance(const Vector3 &from, const Vector3 &direction) const {
+
     Vector3 oc = from - position;
     double a = direction.dot(direction);
     double b = oc.dot(direction);
@@ -32,20 +34,43 @@ double Sphere::intersectDistance(const Vector3 &from, const Vector3 &direction) 
         double sqrtDiscriminant = sqrt(discriminant);
         double temp = (-b - sqrtDiscriminant) / a;
 
-        if (temp >= DBL_MAX || temp <= 0.001)
-        {
-            temp = (-b + sqrtDiscriminant)  / a;
-
-            if (temp >= DBL_MAX || temp <= 0.001)
-            {
-                return INT_MIN;
-            }
+        if(1e-4 < temp && temp < DBL_MAX){
+            return temp;
         }
 
-        return temp;
+        temp = (-b + sqrtDiscriminant)  / a;
+
+        if(1e-4 < temp && temp < DBL_MAX) {
+            return temp;
+        }
+
+        return INT_MIN;
     }
 
     return INT_MIN;
+
+    /*
+    Vector3 op = position - from;
+    double dop = direction.dot(op);
+    double D = dop * dop - op.dot(op) + radius * radius;
+
+    if(D < 0)
+        return INT_MIN;
+
+    double sqrtD = sqrt(D);
+
+    double tMin = dop - sqrtD;
+    if(1e-4 < tMin && tMin < DBL_MAX){
+        return tMin;
+    }
+
+    double tMax = dop + sqrtD;
+    if(1e-4 < tMax && tMax < DBL_MAX) {
+        return tMax;
+    }
+
+    return INT_MIN;
+    */
 }
 
 Vector3 Sphere::intersect(const Vector3 &from, const Vector3 &direction) const {

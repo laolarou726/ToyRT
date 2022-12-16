@@ -49,20 +49,6 @@ Vector3 Ray::emit(const Scene &scene) {
         Vector3 nextDirection = hitObject->getMaterial()->getOutRayDirection(direction, normal);
         //nextDirection.normalize();
 
-        /*
-        GeometryObject* nearestLight = scene.getNearestLightSource(origin);
-
-        if(nearestLight != nullptr){
-            Vector3 randomSurfacePoint = hitObject->getRandomPoint(origin);
-            Vector3 toLightDirection = nearestLight->getPosition() - randomSurfacePoint;
-            toLightDirection.normalize();
-
-            double pdf = hitObject->getProbabilityDensity(origin, toLightDirection);
-
-            //result = result + mat->getReflectance() / pdf;
-        }
-        */
-
         if(mat->getEmission() != Vector3::INF()){
             result = result + mat->getEmission().vectorDot(whole);
         }
@@ -70,6 +56,26 @@ Vector3 Ray::emit(const Scene &scene) {
         whole = whole.vectorDot(mat->getReflectance());
         direction = nextDirection;
         bounceCount++;
+
+        /*
+        if(dynamic_cast<Diffusion*>(mat) == nullptr)
+            continue;
+
+        GeometryObject* nearestLight = scene.getNearestLightSource(origin);
+
+        if(nearestLight == nullptr)
+            continue;
+
+        Vector3 randomSurfacePoint = hitObject->getRandomPoint(origin);
+        Vector3 toLightDirection = nearestLight->getPosition() - randomSurfacePoint;
+        toLightDirection.normalize();
+
+        double pdf = normal.dot(direction) / M_PI; //hitObject->getProbabilityDensity(origin, toLightDirection);
+        double scatterPDF = mat->scatteringPDF(direction, normal);
+
+        result = result + (mat->getReflectance() * scatterPDF) / pdf;
+        result = result * 0.3;
+         */
     }
 
     return result;

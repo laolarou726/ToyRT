@@ -7,9 +7,6 @@
 #include "../Objects/Sphere.h"
 
 Vector3 Reflection::getOutRayDirection(const Vector3 &inRay, const Vector3 &meshNormal) {
-    Vector3 normalizedRayDirection = inRay;
-    normalizedRayDirection.normalize();
-
     Vector3 reflected = inRay - meshNormal * (inRay.dot(meshNormal)) * 2.0f;
     Vector3 outRay = reflected + roughness * Sphere::randomInUnitSphere();
 

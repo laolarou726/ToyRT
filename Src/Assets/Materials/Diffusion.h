@@ -16,6 +16,7 @@ public:
         return new Diffusion({1, 1, 1});
     }
     Vector3 getOutRayDirection(const Vector3 &inRay, const Vector3 &meshNormal) override;
+    double scatteringPDF(const Vector3 &inRay, const Vector3 &meshNormal) override;
 };
 
 

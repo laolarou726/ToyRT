@@ -12,27 +12,25 @@ Dielectric::Dielectric(double refractiveIndex) {
 Vector3 Dielectric::getOutRayDirection(const Vector3 &inRay, const Vector3 &meshNormal) {
     Vector3 outwardNormal;
     double factor;
-    double cosine;
+    bool isFromInsideToOutside = inRay.dot(meshNormal) > 0;
 
     // inside to outside.
-    if (inRay.dot(meshNormal) > 0)
+    if (isFromInsideToOutside)
     {
         outwardNormal = -1 * meshNormal;
         factor = this->refractiveIndex;
-        cosine = this->refractiveIndex * inRay.dot(meshNormal) / inRay.magnitude();
     }
     // outside to inside.
     else
     {
         outwardNormal = meshNormal;
         factor = 1.0 / this->refractiveIndex;
-        cosine = -1 * (inRay.dot(meshNormal)) / inRay.magnitude();
     }
 
-    Vector3 reflected = inRay - meshNormal * (inRay.dot(meshNormal)) * 2.0f;
-    Vector3 refracted = refract(inRay, outwardNormal, factor);
-
+    Vector3 reflected = inRay - meshNormal * (inRay.dot(meshNormal)) * 2.0;
+    auto [refracted, cosine] = refract(inRay, outwardNormal, factor);
     double reflectProbability;
+
     if (refracted != Vector3::INF())
     {
         reflectProbability = schlick(cosine, this->refractiveIndex);
@@ -42,26 +40,28 @@ Vector3 Dielectric::getOutRayDirection(const Vector3 &inRay, const Vector3 &mesh
         reflectProbability = 1;
     }
 
-    return Random::next() < reflectProbability ? reflected : refracted;
+    if(Random::next() < reflectProbability){
+        return reflected;
+    }
+    else{
+        return refracted;
+    }
 }
 
-Vector3 Dielectric::refract(const Vector3 &inRay, const Vector3 &meshNormal, double factor) {
-    Vector3 uv = inRay;
-    uv.normalize();
+tuple<Vector3, double> Dielectric::refract(const Vector3 &inRay, const Vector3 &meshNormal, double factor) {
 
-    double dt = uv.dot(meshNormal);
-    double discriminant = 1 - pow(factor, 2) * (1 - pow(dt, 2));
+    double sine = factor * meshNormal.cross(inRay).magnitude();
+    double cosine = sqrt(1 - pow(sine, 2));
 
-    if(discriminant > 0){
-        return (uv - meshNormal * dt) * factor - meshNormal * sqrt(discriminant);
-    }
+    return {inRay.cross(meshNormal).cross(meshNormal) * sine + (-1 * meshNormal) * cosine, cosine};
 
-    return Vector3::INF();
 }
 
 double Dielectric::schlick(double cosine, double refractiveIndex) {
+
     double r0 = (1 - refractiveIndex) / (1 + refractiveIndex);
     r0 = pow(r0, 2);
 
-    return r0 + (1 - r0) * pow((1 - cosine), 5);
+    return r0 + (1.0 - r0) * pow(1 - cosine, 5);
+
 }

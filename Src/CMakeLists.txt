@@ -31,7 +31,7 @@ add_executable(ToyRT
         main.cpp
         ${ASSETS_SOURCES}
         ${MODELS_SOURCES}
-        ${UTILS_SOURCES} Assets/Materials/Dielectric.cpp Assets/Materials/Dielectric.h Utils/GammaUtils.cpp Utils/GammaUtils.h)
+        ${UTILS_SOURCES} Assets/Cameras/SingleThreadPTCamera.cpp Assets/Cameras/SingleThreadPTCamera.h)
 
 if(OpenMP_CXX_FOUND)
     target_link_libraries(ToyRT PRIVATE OpenMP::OpenMP_CXX)

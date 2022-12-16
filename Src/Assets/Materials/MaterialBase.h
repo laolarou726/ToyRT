@@ -17,6 +17,7 @@ public:
     [[nodiscard]] Vector3 getEmission() const;
     [[nodiscard]] Vector3 getReflectance() const;
     virtual Vector3 getOutRayDirection(const Vector3& inRay, const Vector3& meshNormal);
+    virtual double scatteringPDF(const Vector3& inRay, const Vector3& meshNormal);
     [[nodiscard]] virtual tuple<char, char, char> getReflectanceColor() const;
 };
 
