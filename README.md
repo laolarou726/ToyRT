@@ -2,7 +2,10 @@
 
 A toy QMC Path Tracing Render written in C++. Only for academic purposes.
 
-<img width="594" alt="preview" src="https://user-images.githubusercontent.com/25716486/208178836-dac43029-579c-470c-915b-e5b9f11f059d.png">
+<div>
+  <img width="350" alt="preview" src="https://user-images.githubusercontent.com/25716486/208178836-dac43029-579c-470c-915b-e5b9f11f059d.png">
+  <img width="350" alt="preview2" src="https://user-images.githubusercontent.com/25716486/208180053-227f31e7-359d-4ec8-9388-0edb76278c48.png">
+</div>
 
 ## Special Thanks
 
