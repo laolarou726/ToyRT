@@ -56,10 +56,22 @@ sudo apt install intel-hpckit
 
 ## Features
 
+### Supported Materials
+
+|Material Name|Status|
+|:-----------:|:----:|
+|   Diffuse   |  ✅  |
+|   Reflect   |  ✅  |
+|  Dielectric |  ✅  |
+|   Emission  |  ✅  |
+
+### Supported Features
+
 |Feature        | Status |
 |:-------------:|:------:|
 |Basic Scene Manager|✅|
 |Basic PT Camera|  ✅  |
 |Basic Geometries|✅|
+|Anti-aliasing|✅|
 |Parallel Render|✅|
 |Direct Light Sampling|WIP|
