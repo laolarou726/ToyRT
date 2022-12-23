@@ -32,15 +32,15 @@ int main() {
 
     // Cornell Box
 
+    /*
     scene.addObject(new Sphere({0, -180, 120}, 120, new Dielectric(2.417)));
     scene.addObject(new Sphere({0, 180, 120}, 120, new Reflection({1, 1, 1}, 0)));
+    */
 
-    /*
     scene.addObject(new Sphere({0, -220, 120}, 70, new Reflection({1, 1, 1}, 0)));
     scene.addObject(new Sphere({0, 0, 120}, 70, new Reflection({1, 1, 1}, 0.5)));
-    scene.addObject(new Sphere({0, 0, 300}, 70, new Dielectric(1.5)));
+    scene.addObject(new Sphere({0, 0, 300}, 70, new Dielectric(2.417)));
     scene.addObject(new Sphere({0, 220, 120}, 70, new Reflection({1, 1, 1}, 1)));
-    */
 
     scene.addObject(new Plane({0, 0, 0},{0, 0, 1}, new Diffusion({0.7, 0.7, 0.7})));
     scene.addObject(new Plane({0, -400, 0}, {0, 1, 0}, new Diffusion({0, 1, 0})));
